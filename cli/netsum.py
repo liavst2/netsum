@@ -16,7 +16,7 @@ def amount(direction, iface):
 	"""
 	dir_, print_msg = ["tx", "Transmission"] if direction == "out" else ["rx", "Reception"]
 	mb = FsUtil.extract_int('/sys/class/net/' + iface + '/statistics/' + dir_ + '_bytes')
-	print("{} amount so far is {} MB".format(print_msg, str(mb / (1024**2))))
+	click.echo("{} amount so far is {} MB".format(print_msg, str(mb / (1024**2))))
 	return mb
 
 
@@ -34,7 +34,7 @@ def record(ctx, direction, iface, seconds):
 	end = ctx.invoke(amount, direction=direction, iface=iface)
 	deltaMB = (end - start) / (1024**2)
 	print_msg = "Transmission" if direction == "out" else "Reception"
-	print("In a {} seconds window, {} amount was {} MB".format(seconds, print_msg, deltaMB))
+	click.echo("In a {} seconds window, {} amount was {} MB".format(seconds, print_msg, deltaMB))
 	return deltaMB
 
 
