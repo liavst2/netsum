@@ -9,5 +9,5 @@ For now, the CLI supports two commands:
 
 You can run the following command to get more details:
 ```sh
-python cli/netsum.py [COMMAND] --help
+python3 cli/netsum.py [COMMAND] --help
 ```

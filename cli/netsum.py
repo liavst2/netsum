@@ -17,7 +17,7 @@ def amount(direction, iface):
 	"""
 	dir_, print_msg = ["tx", "Transmission"] if direction == "out" else ["rx", "Reception"]
 	mb = FsUtil.extract_int('/sys/class/net/' + iface + '/statistics/' + dir_ + '_bytes')
-	click.echo("{} amount so far is {} MB".format(print_msg, str(mb / (1024**2))))
+	click.echo(f"{print_msg} amount so far is {str(mb / (1024**2))} MB")
 	return mb
 
 
@@ -35,7 +35,7 @@ def record(ctx, direction, iface, seconds):
 	end = ctx.invoke(amount, direction=direction, iface=iface)
 	deltaMB = (end - start) / (1024**2)
 	print_msg = "Transmission" if direction == "out" else "Reception"
-	click.echo("In a {} seconds window, {} amount was {} MB".format(seconds, print_msg, deltaMB))
+	click.echo(f"In a {seconds} seconds window, {print_msg} amount was {deltaMB} MB")
 	return deltaMB
 
 
@@ -48,11 +48,11 @@ def record(ctx, direction, iface, seconds):
 @click.pass_context
 def report(ctx, period, direction, iface, send_email, recv_email):
 	"""
-	Report amount of internet data in a to a given Email.
+	Report amount of internet data to a given Email.
 	"""
 	def send(seconds):
 		deltaMB = ctx.invoke(record, direction=direction, iface=iface, seconds=seconds)
-		print("deltaMB is {}".format(deltaMB))
+		print(f"deltaMB is {deltaMB}")
 
 	scheduler = sched.scheduler(time.time, time.sleep)
 	dir_file = ('tx' if direction == "out" else 'rx') + "_bytes"
